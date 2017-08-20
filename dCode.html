@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Code Player V1</title>
+    <title>dCode</title>
     <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
     <style type="text/css">
         body {
@@ -50,14 +50,30 @@
             border-right: solid grey 1px;
         }
 
-        .active{
+        .active {
             background-color: #E8F2FF;
         }
 
-        .highlightedButton{
+        .highlightedButton {
             background-color: grey;
         }
+
+        textarea {
+            resize: none;
+            border-top: none;
+            border-color: grey;
+        }
+
+        .panel {
+            width: 50%;
+            float: left;
+        }
+
+        iframe {
+            border: none;
+        }
     </style>
+
 </head>
 <body>
 <div id="ribbon">
@@ -70,24 +86,39 @@
         <div class="toggleButton" id="javascript">JavaScript</div>
         <div class="toggleButton active" id="output">Output</div>
     </div>
-    <script type="text/javascript">
-        $(".toggleButton")
-            .hover(
-                function () {
-                    $(this).addClass("highlightedButton");
-                },
-                function () {
-                    $(this).removeClass("highlightedButton");
-                }
-            )
-            .click(
-                function () {
-                    $(this).toggleClass("active");
-                    $(this).removeClass("highlightedButton");
-                }
-            );
-
-    </script>
 </div>
+
+<div id="bodyContainer">
+    <textarea class="panel" id="htmlPanel">Hello World!</textarea>
+    <iframe class="panel" id="outputPanel"></iframe>
+</div>
+
+<script type="text/javascript">
+    $(".toggleButton")
+        .hover(
+            function () {
+                $(this).addClass("highlightedButton");
+            },
+            function () {
+                $(this).removeClass("highlightedButton");
+            }
+        )
+        .click(
+            function () {
+                $(this).toggleClass("active");
+                $(this).removeClass("highlightedButton");
+            }
+        );
+
+    $(".panel")
+        .height($(window).height() - $("#ribbon").height() - 15)
+        .width(($(window).width() / 2) - 10);
+
+    $("textarea").on('change keyup paste', function () {
+        $("iframe").contents().find("html").html($("#htmlPanel").val());
+    });
+
+</script>
+
 </body>
 </html>
